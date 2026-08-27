@@ -1,22 +1,3 @@
-"""
-Dashboard Interaktif — Peramalan Nilai Tukar USD/IDR (ARIMA vs LSTM)
-=====================================================================
-Cara menjalankan:
-    1. Pastikan folder `dashboard_data/` (hasil ekspor dari notebook SKRIPSI)
-       berada satu direktori dengan file ini.
-    2. Install dependensi:
-           pip install streamlit plotly pandas tensorflow joblib scikit-learn
-    3. Jalankan:
-           streamlit run streamlit_app.py
-
-Pembaruan versi ini:
-    - Pengguna dapat memasukkan TANGGAL BERAPA PUN ke depan (tidak lagi
-      dibatasi pada rentang tetap 30 hari bursa), karena dashboard kini
-      memuat model LSTM terlatih beserta scaler-nya, lalu menghitung
-      peramalan secara rekursif langsung dari tanggal terakhir data
-      historis hingga tanggal yang diminta pengguna.
-"""
-
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
@@ -43,11 +24,11 @@ MAX_HORIZON_DAYS = 365
 # --------------------------------------------------------------------------
 @st.cache_data
 def load_data():
-    df_hist = pd.read_csv(f"{DATA_DIR}/dashboard_actual.csv", parse_dates=["Date"])
-    df_test = pd.read_csv(f"{DATA_DIR}/dashboard_test_predictions.csv", parse_dates=["Date"])
-    df_future = pd.read_csv(f"{DATA_DIR}/dashboard_future_forecast.csv", parse_dates=["Date"])
-    df_compare = pd.read_csv(f"{DATA_DIR}/dashboard_model_comparison.csv")
-    meta = pd.read_csv(f"{DATA_DIR}/dashboard_meta.csv").iloc[0]
+    df_hist = pd.read_csv(f"DASHBOARD/dashboard_actual.csv", parse_dates=["Date"])
+    df_test = pd.read_csv(f"DASHBOARD/dashboard_test_predictions.csv", parse_dates=["Date"])
+    df_future = pd.read_csv(f"DASHBOARD/dashboard_future_forecast.csv", parse_dates=["Date"])
+    df_compare = pd.read_csv(f"DASHBOARD/dashboard_model_comparison.csv")
+    meta = pd.read_csv(f"DASHBOARD/dashboard_meta.csv").iloc[0]
     return df_hist, df_test, df_future, df_compare, meta
 
 
@@ -58,8 +39,8 @@ def load_model_and_scaler():
     from tensorflow.keras.models import load_model
     import joblib
 
-    model = load_model(f"{DATA_DIR}/lstm_model.keras")
-    scaler = joblib.load(f"{DATA_DIR}/scaler.pkl")
+    model = load_model(f"DASHBOARD/lstm_model.keras")
+    scaler = joblib.load(f"DASHBOARD/scaler.pkl")
     return model, scaler
 
 
