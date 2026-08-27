@@ -4,3 +4,4 @@ numpy
 plotly
 tensorflow-cpu
 scikit-learn
+joblib
